@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: docgenie-rails-api_development
+  database: docgenie_rails_api_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: docgenie-rails-api_test
+  database: docgenie_rails_api_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: docgenie-rails-api_production
+  database: docgenie_rails_api_production
   username: docgenie-rails-api
   password: <%= ENV['DOCGENIE-RAILS-API_DATABASE_PASSWORD'] %>
