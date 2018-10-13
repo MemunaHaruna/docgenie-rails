@@ -20,4 +20,46 @@ module ControllerSpecHelper
       "Content-Type" => "application/json"
     }
   end
+
+  def valid_document_params
+    {
+      title: 'hello',
+      access: 0,
+      content: 'random content'
+    }
+  end
+
+  def invalid_document_params_1
+    {
+      title: nil,
+      access: 0,
+      content: 'random content'
+    }
+  end
+
+  def invalid_document_params_2
+    {
+      title: 'whatever',
+      access: 0,
+      content: nil
+    }
+  end
+
+  def invalid_document_params_3
+    {
+      title: 'whatever',
+      access: nil,
+      content: 'toodles'
+    }
+  end
+
+  def duplicate_document_params
+    {
+      title: 'hello',
+      access: 0,
+      content: 'random content'
+    }
+  end
+
+
 end
