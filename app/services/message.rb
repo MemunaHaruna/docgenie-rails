@@ -23,6 +23,18 @@ class Message
     'Account created successfully'
   end
 
+  def self.document_created
+    'Document created successfully'
+  end
+
+  def self.document_updated
+    'Document updated successfully'
+  end
+
+  def self.document_deleted
+    'Document deleted successfully'
+  end
+
   def self.account_not_created
     'Account could not be created'
   end
@@ -33,5 +45,17 @@ class Message
 
   def self.password_mismatch
     "Password and password confirmation don't match"
+  end
+
+  def self.admin_required
+    "Oops.. you must be an admin to perform this action"
+  end
+
+  def self.account_updated
+    'Account updated successfully'
+  end
+
+  def self.access_not_granted
+    'Sorry, you are not authorized to perform this action'
   end
 end
