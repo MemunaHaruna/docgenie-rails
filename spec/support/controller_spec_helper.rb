@@ -10,7 +10,8 @@ module ControllerSpecHelper
   def valid_headers(user_id)
     {
       "Authorization" => token_generator(user_id),
-      "Content-Type" => "application/json"
+      "Content-Type" => "application/json",
+      "Accept" => "application/vnd.docgenie.v1+json"
     }
   end
 

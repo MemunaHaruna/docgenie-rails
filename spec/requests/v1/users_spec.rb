@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Users API', type: :request do
+RSpec.describe 'V1::Users API', type: :request do
   let!(:user) { create(:user) }
   let(:admin_user) { create(:user, role: 1) }
   let(:headers) { valid_headers(user.id).except('Authorization') }
