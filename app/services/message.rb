@@ -48,7 +48,7 @@ class Message
   end
 
   def self.admin_required
-    "Oops.. you must be an admin to perform this action"
+    "Oops... you must be an admin to perform this action"
   end
 
   def self.account_updated
@@ -57,5 +57,9 @@ class Message
 
   def self.access_not_granted
     'Sorry, you are not authorized to perform this action'
+  end
+
+  def self.successful_signin
+    'Successfully signed in'
   end
 end
