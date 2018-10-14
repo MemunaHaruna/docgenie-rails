@@ -2,7 +2,8 @@ class DocumentsController < ApplicationController
   before_action :set_document, only: [:show, :update, :destroy]
 
   def index
-    doc = Document.all.where(access: 0).or(Document.where(user_id: current_user.id))
+    doc = Document.where(access: 0).or(Document.where(user_id: current_user.id))
+    doc = doc.page(params[:page]).per(5)
     json_response(status: :ok, object: doc)
   end
 

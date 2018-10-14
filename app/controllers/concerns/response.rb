@@ -1,6 +1,12 @@
 module Response
   def json_response(message: 'success', status: :ok, object: nil)
-    render json: object, meta: message, meta_key: :message, status: status
+    if object.respond_to? :size
+      render json: object,
+      meta: { message: message, pagination: pagination_dict(object)}, status: status
+    else
+      render json: object,
+      meta: message, meta_key: :message, status: status
+    end
   end
 
   def json_error_response(message: 'error', status: :unprocessable_entity)

@@ -12,6 +12,15 @@ class ApplicationController < ActionController::API
     @current_user ||= (Auth::AuthorizeApiRequest.new(request.headers).call)[:user]
   end
 
+  def pagination_dict(collection)
+    {
+      current_page: collection.current_page,
+      next_page: collection.next_page,
+      prev_page: collection.prev_page,
+      total_pages: collection.total_pages
+    }
+  end
+
   def require_admin
     raise ExceptionHandler::UnauthorizedUser, Message.admin_required if !current_user&.admin?
   end

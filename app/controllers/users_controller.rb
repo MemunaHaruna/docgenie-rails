@@ -3,10 +3,9 @@ class UsersController < ApplicationController
   before_action :require_admin, only: :index
 
   def index
-    users = User.all
+    users = User.all.page(params[:page]).per(5)
     json_response(object: users)
   end
-
 
   def create
     verify_password_matches_password_confirmation
