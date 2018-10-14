@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Documents API', type: :request do
+RSpec.describe 'V1::Documents API', type: :request do
   let(:user) {create(:user)}
   let(:user_2) {create(:user)}
   let!(:document) { create(:document, user: user)}
