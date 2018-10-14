@@ -69,6 +69,9 @@ $ rails s
 
 The API has routes, each dedicated to a single task that uses HTTP response codes to indicate API status and error messages.
 
+Api documentation can be found here:
+https://documenter.getpostman.com/view/1734394/RWgrxd4k#9d17bef1-18e3-4eb0-eef7-a17e469bbb49
+
 ##### Authentication
 
 * Users are assigned a token on signup or signin. This token is needed for subsequent HTTP requests to the API for authentication and can be attached as values to the header's x-access-token or authorization key. API requests made without authentication will fail with the status code `401: Unauthorized Access`.
