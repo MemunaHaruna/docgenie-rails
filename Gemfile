@@ -25,6 +25,8 @@ gem 'active_model_serializers', '~> 0.10.0'
 
 gem 'kaminari'
 
+gem 'brakeman'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
