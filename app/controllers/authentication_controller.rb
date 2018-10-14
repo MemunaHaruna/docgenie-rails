@@ -5,7 +5,7 @@ class AuthenticationController < ApplicationController
     auth_token =
     Auth::AuthenticateUser.new(auth_params[:email], auth_params[:password]).call
 
-    json_response(object: { token: auth_token })
+    json_response_auth(object: auth_token, message: Message.successful_signin)
   end
 
   private

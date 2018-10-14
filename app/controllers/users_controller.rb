@@ -13,14 +13,14 @@ class UsersController < ApplicationController
 
     user = User.create!(user_create_params)
     auth_token = Auth::AuthenticateUser.new(user.email, user.password).call
-    json_response(status: :created, object: { token: auth_token}, message: Message.account_created)
+    json_response_auth(status: :created, object: auth_token, message: Message.account_created)
   end
 
   def update
     user = set_user
     verify_user_has_required_access(user)
     user.update(user_update_params)
-    json_response(status: :ok, object: { user: user}, message: Message.account_updated)
+    json_response(status: :ok, object: user, message: Message.account_updated)
   end
 
   private
@@ -30,8 +30,21 @@ class UsersController < ApplicationController
 
     def verify_user_has_required_access(user)
       role = user_update_params[:role]
-      if role.present? && current_user.id != user.id
-        require_admin
+      first_name = user_update_params[:first_name]
+      last_name = user_update_params[:last_name]
+
+      if role.present?
+        if !first_name.present? && !last_name.present?
+          require_admin
+        elsif user.admin? && current_user.id == user.id
+          return true
+        elsif (first_name.present? || last_name.present?)
+          raise ExceptionHandler::UnauthorizedUser, Message.access_not_granted
+        end
+      else
+        if current_user.id != user.id
+          raise ExceptionHandler::UnauthorizedUser, Message.access_not_granted
+        end
       end
     end
 
@@ -40,7 +53,7 @@ class UsersController < ApplicationController
     end
 
     def user_update_params
-      params.permit(:first_name, :last_name, :email, :role)
+      params.permit(:first_name, :last_name, :role)
     end
 
     def verify_password_matches_password_confirmation

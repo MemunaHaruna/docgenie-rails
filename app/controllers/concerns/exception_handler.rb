@@ -19,26 +19,26 @@ module ExceptionHandler
   end
 
   def record_invalid(error)
-    json_response(status: :unprocessable_entity, message: error.message)
+    json_error_response(status: :unprocessable_entity, message: error.message)
   end
 
   def unauthenticated(error)
-    json_response(status: :unauthorized, message: error.message)
+    json_error_response(status: :unauthorized, message: error.message)
   end
 
   def unauthorized_request(error)
-    json_response(status: :forbidden, message: error.message)
+    json_error_response(status: :forbidden, message: error.message)
   end
 
   def record_not_found(error)
-    json_response(status: :not_found, message: error.message)
+    json_error_response(status: :not_found, message: error.message)
   end
 
   def password_not_matching_confirmation(error)
-    json_response(status: :unprocessable_entity, message: error.message)
+    json_error_response(status: :unprocessable_entity, message: error.message)
   end
 
   def record_not_destroyed(error)
-    json_response(status: :unprocessable_entity, message: error.message)
+    json_error_response(status: :unprocessable_entity, message: error.message)
   end
 end

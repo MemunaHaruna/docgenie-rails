@@ -19,9 +19,9 @@ RSpec.describe 'Documents API', type: :request do
 
       it 'creates a new document' do
         expect(json[:message]).to eq 'Document created successfully'
-        expect(json[:data][:document][:title]).to eq valid_params[:title]
-        expect(json[:data][:document][:access]).to eq 'general'
-        expect(json[:data][:document][:content]).to eq valid_params[:content]
+        expect(json[:document][:title]).to eq valid_params[:title]
+        expect(json[:document][:access]).to eq 'general'
+        expect(json[:document][:content]).to eq valid_params[:content]
         expect(response).to have_http_status(201)
       end
     end
@@ -33,7 +33,6 @@ RSpec.describe 'Documents API', type: :request do
         it 'returns an error' do
           expect(response).to have_http_status(422)
           expect(json[:message]).to eq "Validation failed: Title can't be blank"
-          expect(json[:data]).to be nil
         end
       end
 
@@ -43,7 +42,6 @@ RSpec.describe 'Documents API', type: :request do
         it 'returns an error' do
           expect(response).to have_http_status(422)
           expect(json[:message]).to eq "Validation failed: Content can't be blank"
-          expect(json[:data]).to be nil
         end
       end
 
@@ -53,7 +51,6 @@ RSpec.describe 'Documents API', type: :request do
         it 'returns an error' do
           expect(response).to have_http_status(422)
           expect(json[:message]).to eq "Validation failed: Access can't be blank"
-          expect(json[:data]).to be nil
         end
       end
 
@@ -67,7 +64,6 @@ RSpec.describe 'Documents API', type: :request do
 
         it 'returns an error' do
           expect(json[:message]).to eq 'Validation failed: Title has already been taken'
-          expect(json[:data]).to be nil
           expect(response).to have_http_status(422)
         end
       end
@@ -79,9 +75,9 @@ RSpec.describe 'Documents API', type: :request do
       before { get '/documents', headers: headers }
 
       it "returns only the user's documents and other user's public documents" do
-        expect(json[:data][:documents].first[:title]).to eq document[:title]
-        expect(json[:data][:documents].first[:access]).to eq document[:access]
-        expect(json[:data][:documents].first[:title]).to eq document[:title]
+        expect(json[:documents].first[:title]).to eq document[:title]
+        expect(json[:documents].first[:access]).to eq document[:access]
+        expect(json[:documents].first[:title]).to eq document[:title]
         expect(response).to have_http_status(200)
       end
     end

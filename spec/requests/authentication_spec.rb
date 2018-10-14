@@ -20,7 +20,8 @@ RSpec.describe 'Authentication', type: :request do
     context 'When request is valid' do
       before { post '/login', params: valid_credentials, headers: headers }
       it 'returns an authentication token' do
-        expect(json[:data][:token]).not_to be_nil
+        expect(json[:token]).not_to be_nil
+        expect(json[:message]).to eq 'Successfully signed in'
       end
     end
 
