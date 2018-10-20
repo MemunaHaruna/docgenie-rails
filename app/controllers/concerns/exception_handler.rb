@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ExceptionHandler
   extend ActiveSupport::Concern
 
@@ -13,7 +15,8 @@ module ExceptionHandler
     rescue_from ExceptionHandler::MissingToken, with: :record_invalid
     rescue_from ExceptionHandler::InvalidToken, with: :record_invalid
     rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-    rescue_from ExceptionHandler::PasswordMismatch, with: :password_not_matching_confirmation
+    rescue_from ExceptionHandler::PasswordMismatch,
+                with: :password_not_matching_confirmation
     rescue_from ActiveRecord::RecordNotDestroyed, with: :record_not_destroyed
     rescue_from ExceptionHandler::UnauthorizedUser, with: :unauthorized_request
   end

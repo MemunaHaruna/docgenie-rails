@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   include ::ActionController::Serialization
   include Response
   include ExceptionHandler
+  include AuthChecker
 
   before_action :authorize_request
   attr_reader :current_user
@@ -9,7 +12,7 @@ class ApplicationController < ActionController::API
   private
 
   def authorize_request
-    @current_user ||= (Auth::AuthorizeApiRequest.new(request.headers).call)[:user]
+    @current_user ||= Auth::AuthorizeApiRequest.new(request.headers).call[:user]
   end
 
   def pagination_dict(collection)
@@ -19,19 +22,5 @@ class ApplicationController < ActionController::API
       prev_page: collection.prev_page,
       total_pages: collection.total_pages
     }
-  end
-
-  def require_admin
-    raise ExceptionHandler::UnauthorizedUser, Message.admin_required if !current_user&.admin?
-  end
-
-  def verify_user_has_correct_requirements(record)
-    if current_user&.id != record.user_id
-      if record.general?
-        require_admin
-      else
-        raise ExceptionHandler::UnauthorizedUser, Message.access_not_granted
-      end
-    end
   end
 end
