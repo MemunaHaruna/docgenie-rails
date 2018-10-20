@@ -1,50 +1,39 @@
 class V1::UsersController < ApplicationController
   skip_before_action :authorize_request, only: :create
-  before_action :require_admin, only: :index
+  before_action :set_user, only: [:show, :update, :destroy]
 
   def index
-    users = User.all.page(params[:page]).per(5)
-    json_response(object: users)
+    require_admin
+    users = User.all.page(params[:page]).per(params[:per_page] || 5)
+    json_response(object: users, show_children: false)
   end
 
   def create
     verify_password_matches_password_confirmation
-
     user = User.create!(user_create_params)
     auth_token = Auth::AuthenticateUser.new(user.email, user.password).call
     json_response_auth(status: :created, object: auth_token, message: Message.account_created)
   end
 
+  def show
+    json_response(object: @user)
+  end
+
   def update
-    user = set_user
-    verify_user_has_required_access(user)
-    user.update(user_update_params)
-    json_response(status: :ok, object: user, message: Message.account_updated)
+    can_update_user(@user, user_update_params)
+    @user.update(user_update_params)
+    json_response(status: :ok, object: @user, message: Message.account_updated)
+  end
+
+  def destroy
+    raise_error_if_not_current_user(@user)
+    @user.destroy!
+    json_response_default(status: :ok, message: Message.user_deleted)
   end
 
   private
     def set_user
       @user = User.find(params[:id])
-    end
-
-    def verify_user_has_required_access(user)
-      role = user_update_params[:role]
-      first_name = user_update_params[:first_name]
-      last_name = user_update_params[:last_name]
-
-      if role.present?
-        if !first_name.present? && !last_name.present?
-          require_admin
-        elsif user.admin? && current_user.id == user.id
-          return true
-        elsif (first_name.present? || last_name.present?)
-          raise ExceptionHandler::UnauthorizedUser, Message.access_not_granted
-        end
-      else
-        if current_user.id != user.id
-          raise ExceptionHandler::UnauthorizedUser, Message.access_not_granted
-        end
-      end
     end
 
     def user_create_params
@@ -57,7 +46,6 @@ class V1::UsersController < ApplicationController
 
     def verify_password_matches_password_confirmation
       return true if user_create_params[:password] == user_create_params[:password_confirmation]
-
       raise ExceptionHandler::PasswordMismatch, Message.password_mismatch
     end
 end

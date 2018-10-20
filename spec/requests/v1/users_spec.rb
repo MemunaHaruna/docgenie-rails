@@ -57,7 +57,7 @@ RSpec.describe 'V1::Users API', type: :request do
         before { put "/users/#{user.id}",
         params: { first_name: 'josh' }.to_json, headers: admin_header }
 
-        it "returns an error" do
+        it "returns an error message" do
           expect(json[:message]).to eq "Sorry, you are not authorized to perform this action"
           expect(response).to have_http_status(403)
         end
@@ -79,10 +79,9 @@ RSpec.describe 'V1::Users API', type: :request do
         before { put "/users/#{admin_user.id}",
         params: { role: 'member' }.to_json, headers: admin_header }
 
-        it "updates successfully" do
-          expect(json[:message]).to eq "Account updated successfully"
-          expect(json[:user][:id]).to eq admin_user.id
-          expect(json[:user][:role]).to eq 'member'
+        it "returns an error message" do
+          expect(json[:message]).to eq "Sorry, you are not authorized to perform this action"
+          expect(response).to have_http_status(403)
         end
       end
     end
@@ -124,9 +123,41 @@ RSpec.describe 'V1::Users API', type: :request do
         before { put "/users/#{user.id}", params: { role: 'admin' }.to_json, headers: user_header }
 
         it "updates successfully" do
-          expect(json[:message]).to eq "Oops... you must be an admin to perform this action"
+          expect(json[:message]).to eq "Sorry, you are not authorized to perform this action"
           expect(response).to have_http_status(403)
         end
+      end
+    end
+  end
+
+  describe "GET /users/id" do
+    context "when valid request" do
+      before { get "/users/#{user.id}", headers: user_header }
+
+      it "returns the user details" do
+        expect(json[:user][:id]).to eq user.id
+        expect(json[:user][:first_name]).to eq user.first_name
+        expect(json[:message]).to eq "success"
+      end
+    end
+  end
+
+  describe "DELETE /users/id" do
+    context "when deleting own account" do
+      before { delete "/users/#{user.id}", headers: user_header }
+
+      it "deletes successfully" do
+        expect(response).to have_http_status(200)
+        expect(json[:message]).to eq "Account deleted successfully"
+      end
+    end
+
+    context "when deleting another user's account" do
+      before { delete "/users/#{user.id}", headers: admin_header }
+
+      it "returns an error message" do
+        expect(json[:message]).to eq "Sorry, you are not authorized to perform this action"
+        expect(response).to have_http_status(403)
       end
     end
   end

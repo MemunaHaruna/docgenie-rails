@@ -2,9 +2,16 @@ class V1::DocumentsController < ApplicationController
   before_action :set_document, only: [:show, :update, :destroy]
 
   def index
+    require_admin
     doc = Document.where(access: 0).or(Document.where(user_id: current_user.id))
-    doc = doc.page(params[:page]).per(5)
+    doc = doc.page(params[:page]).per(params[:per_page] || 5)
     json_response(status: :ok, object: doc)
+  end
+
+  def my_documents
+    docs = current_user.documents
+    docs = docs.page(params[:page]).per(params[:per_page] || 5)
+    json_response(status: :ok, object: docs)
   end
 
   def create
@@ -13,22 +20,21 @@ class V1::DocumentsController < ApplicationController
   end
 
   def show
-    if @document.personal? && @document.user_id != current_user.id
-      raise ExceptionHandler::UnauthorizedUser, Message.access_not_granted
-    else
-      json_response(status: :ok, object: @document)
+    if @document.personal?
+      raise_error_if_not_current_user(@document.user)
     end
+    json_response(status: :ok, object: @document)
   end
 
   def update
+    raise_error_if_not_current_user(@document.user)
     document = current_user.documents.find(@document.id)
     document.update(document_params)
     json_response(status: :ok, object: @document.reload, message: Message.document_updated)
   end
 
   def destroy
-    verify_user_has_correct_requirements(@document)
-
+    raise_error_if_not_current_user(@document.user)
     @document.destroy!
     json_response_default(status: :ok, message: Message.document_deleted)
   end

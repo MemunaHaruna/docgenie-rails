@@ -35,6 +35,10 @@ class Message
     'Document deleted successfully'
   end
 
+  def self.user_deleted
+    'Account deleted successfully'
+  end
+
   def self.account_not_created
     'Account could not be created'
   end

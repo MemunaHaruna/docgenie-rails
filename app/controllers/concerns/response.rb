@@ -1,10 +1,10 @@
 module Response
-  def json_response(message: 'success', status: :ok, object: nil)
+  def json_response(message: 'success', status: :ok, object: nil, show_children: true)
     if object.respond_to? :size
-      render json: object,
+      render json: object, show_children: show_children,
       meta: { message: message, pagination: pagination_dict(object)}, status: status
     else
-      render json: object,
+      render json: object, show_children: show_children,
       meta: message, meta_key: :message, status: status
     end
   end
