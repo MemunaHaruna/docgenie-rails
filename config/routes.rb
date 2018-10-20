@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   end
 
   scope module: :v1, constraints: ApiVersion.new('v1', true) do
-    resources :documents
+    resources :documents do
+      resources :comments, only: [:create, :destroy]
+    end
 
     post 'signup', to: 'users#create'
 

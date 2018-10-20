@@ -7,4 +7,5 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of(:password_digest) }
 
   it { should have_many(:documents) }
+  it { should have_many(:comments) }
 end
