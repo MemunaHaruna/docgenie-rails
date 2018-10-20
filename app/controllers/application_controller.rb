@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationController < ActionController::API
   include ::ActionController::Serialization
   include Response
@@ -9,16 +11,16 @@ class ApplicationController < ActionController::API
 
   private
 
-    def authorize_request
-      @current_user ||= (Auth::AuthorizeApiRequest.new(request.headers).call)[:user]
-    end
+  def authorize_request
+    @current_user ||= Auth::AuthorizeApiRequest.new(request.headers).call[:user]
+  end
 
-    def pagination_dict(collection)
-      {
-        current_page: collection.current_page,
-        next_page: collection.next_page,
-        prev_page: collection.prev_page,
-        total_pages: collection.total_pages
-      }
-    end
+  def pagination_dict(collection)
+    {
+      current_page: collection.current_page,
+      next_page: collection.next_page,
+      prev_page: collection.prev_page,
+      total_pages: collection.total_pages
+    }
+  end
 end

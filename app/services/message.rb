@@ -1,50 +1,52 @@
+# frozen_string_literal: true
+
 class Message
-  def self.not_found(record = 'record')
+  def self.not_found(record = "record")
     "Sorry, #{record} not found."
   end
 
   def self.invalid_credentials
-    'Invalid credentials'
+    "Invalid credentials"
   end
 
   def self.invalid_token
-    'Invalid token'
+    "Invalid token"
   end
 
   def self.missing_token
-    'Missing token'
+    "Missing token"
   end
 
   def self.unauthorized
-    'Unauthorized request'
+    "Unauthorized request"
   end
 
   def self.account_created
-    'Account created successfully'
+    "Account created successfully"
   end
 
   def self.document_created
-    'Document created successfully'
+    "Document created successfully"
   end
 
   def self.document_updated
-    'Document updated successfully'
+    "Document updated successfully"
   end
 
   def self.document_deleted
-    'Document deleted successfully'
+    "Document deleted successfully"
   end
 
   def self.user_deleted
-    'Account deleted successfully'
+    "Account deleted successfully"
   end
 
   def self.account_not_created
-    'Account could not be created'
+    "Account could not be created"
   end
 
   def self.expired_token
-    'Sorry, your token has expired. Please login to continue.'
+    "Sorry, your token has expired. Please login to continue."
   end
 
   def self.password_mismatch
@@ -56,14 +58,14 @@ class Message
   end
 
   def self.account_updated
-    'Account updated successfully'
+    "Account updated successfully"
   end
 
   def self.access_not_granted
-    'Sorry, you are not authorized to perform this action'
+    "Sorry, you are not authorized to perform this action"
   end
 
   def self.successful_signin
-    'Successfully signed in'
+    "Successfully signed in"
   end
 end

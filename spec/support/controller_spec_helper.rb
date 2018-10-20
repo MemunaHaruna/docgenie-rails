@@ -24,9 +24,9 @@ module ControllerSpecHelper
 
   def valid_document_params
     {
-      title: 'hello',
+      title: "hello",
       access: 0,
-      content: 'random content'
+      content: "random content"
     }
   end
 
@@ -34,13 +34,13 @@ module ControllerSpecHelper
     {
       title: nil,
       access: 0,
-      content: 'random content'
+      content: "random content"
     }
   end
 
   def invalid_document_params_2
     {
-      title: 'whatever',
+      title: "whatever",
       access: 0,
       content: nil
     }
@@ -48,19 +48,17 @@ module ControllerSpecHelper
 
   def invalid_document_params_3
     {
-      title: 'whatever',
+      title: "whatever",
       access: nil,
-      content: 'toodles'
+      content: "toodles"
     }
   end
 
   def duplicate_document_params
     {
-      title: 'hello',
+      title: "hello",
       access: 0,
-      content: 'random content'
+      content: "random content"
     }
   end
-
-
 end
