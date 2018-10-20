@@ -1,5 +1,5 @@
 # docgenie-rails-api
-A document management system that allows users create documents, set access privileges for their documents, and view other users' public documents, save private for-your-eyes-only documents and also edit or delete your own saved documents.
+A document management system that allows users create documents, set access privileges for their documents, view their own documents, allows admin users view other users' public documents, save private(for-your-eyes-only) documents, comment on other users' documents, and also edit or delete your own saved documents.
 
 ### About the application
 
@@ -20,18 +20,18 @@ The following features make up the Document Management System API:
 * Allows authenticated users to retrieve and edit their information only.
 * Ensures all users can be retrieved and modified by an admin user.
 
-##### Roles
-
-* Ensures that users have roles.
-* Ensures user roles could be admin or member.
-* Ensures user roles can be updated by an admin user.
-
 ##### Documents
 
 * Allows new documents to be created by authenticated users.
-* Ensures all documents have access roles defined as public or private.
+* Ensures all documents have access roles defined as general(public) or personal(private)
 * Allows the admin user to retrieve all documents, except private documents.
 * Ensures users can retrieve, delete, and update documents that they own.
+
+##### Comments
+
+* Allows creation of comments on documents by authenticated users.
+* Ensures a user can delete their own comment
+
 
 ##### Tech Stack
 * **Rails** - Ruby framework
@@ -67,18 +67,18 @@ $ rails s
 
 ##### API Documentation
 
-The API has routes, each dedicated to a single task that uses HTTP response codes to indicate API status and error messages.
+The API has routes, each dedicated to a single resource that uses HTTP response codes to indicate API status and error messages.
 
 Api documentation can be found here:
-https://documenter.getpostman.com/view/1734394/RWgrxd4k#9d17bef1-18e3-4eb0-eef7-a17e469bbb49
+https://documenter.getpostman.com/view/1734394/RWguxGf5
 
 ##### Authentication
 
-* Users are assigned a token on signup or signin. This token is needed for subsequent HTTP requests to the API for authentication and can be attached as values to the header's x-access-token or authorization key. API requests made without authentication will fail with the status code `401: Unauthorized Access`.
+* Users are assigned a token on signup or signin. This token is needed for subsequent HTTP requests to the API for authentication and can be attached as values to the header's x-access-token or authorization key. API requests made without authentication will fail with the status code `403`.
 
 ##### Contributing
 
-- Contributors are welcome to further enhance the features of this API by contributing to its development. The following guidelines should guide you in contributing to this project:
+- Contributors are welcome to further enhance the features of this API by contributing to it's development. The following guidelines should guide you in contributing to this project:
 
 * Fork this repository to your own account.
 * Download/Clone your own forked repository to your local machine.

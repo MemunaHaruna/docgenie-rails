@@ -29,6 +29,10 @@ class Message
     "Document created successfully"
   end
 
+  def self.comment_created
+    "Comment created successfully"
+  end
+
   def self.document_updated
     "Document updated successfully"
   end
@@ -39,6 +43,10 @@ class Message
 
   def self.user_deleted
     "Account deleted successfully"
+  end
+
+  def self.comment_deleted
+    "Comment deleted successfully"
   end
 
   def self.account_not_created
